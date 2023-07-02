@@ -1,0 +1,19 @@
+.book-list ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+
+    list-style-type: none;
+}
+
+.book-list li {
+    background-color: var(--saffron);
+    padding: 10px;
+    position: relative;
+}
+
+.book-list .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
