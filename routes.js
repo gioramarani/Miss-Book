@@ -4,6 +4,9 @@ import AboutPage from './pages/AboutPage.js'
 import BookDetails from './pages/BookDetails.js'
 import BookEdit from './pages/BookEdit.js'
 
+import BookAddReview from '../cmps/BookAddReview.js'
+import BookReviews from '../cmps/BookReviews.js'
+
 const { createRouter, createWebHashHistory } = VueRouter
 
 const AboutTeam = {
@@ -53,8 +56,15 @@ const options = {
         {
             path: '/book/edit/:bookId?',
             component: BookEdit
-        }
-
+        },
+        {
+            path: '/book/add-review',
+            component: BookAddReview
+        },
+        {
+            path: '/book/reviews',
+            component: BookReviews
+        },
     ]
 }
 export const router = createRouter(options)

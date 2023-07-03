@@ -6,25 +6,18 @@ import BookFilter from '../cmps/BookFilter.js'
 
 
 export default {
-  name:'',
+  name:'BookIndex',
   props: [],
   template: `
         <section class="book-index" v-if="books">
-            <RouterLink to="/book/edit">Add Car</RouterLink>
+            <RouterLink to="/book/edit">Add Book</RouterLink>
 
             <BookFilter @filter="setFilterBy"/>
             <BookList 
-            v-if="!selectedBook && books"
+            
                 :books="filteredBooks"
-                @select="selectBook"
                 @remove="removeBook"
             />
-            <!-- <BookDetails 
-                v-else
-                :book="selectedBook"
-                @close="selectedBook = null"/>
-            <BookEdit @save="saveBook"/> -->
-        
         </section>
 
         `,

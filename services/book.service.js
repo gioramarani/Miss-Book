@@ -63,8 +63,8 @@ function save(book) {
     }
 }
 
-function getEmptyBook(id = utilService.makeId(), title = '', amount) {
-    return { id, title, amount }
+function getEmptyBook(id = '', title = '', amount) {
+    return { id, title, listPrice:{amount} }
 }
 
 // function getFilterBy() {

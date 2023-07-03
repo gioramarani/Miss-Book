@@ -8,9 +8,9 @@ export default {
   template: `
 
         <form @submit.prevent="save" class="book-edit">
-            <h2>Add a Book</h2>
+            <h2>{{(bookToEdit.id)? 'Edit' : 'Add'}} a Book</h2>
             <input type="text" placeholder="Enter title" v-model="bookToEdit.title" />
-            <!-- <input type="number" v-model.number="bookToEdit.listPrice.amount" /> -->
+            <input type="number" v-model.number="bookToEdit.listPrice.amount" />
 
             <RouterLink to="/book">Cancel</RouterLink>
             <button :disabled="!isValid" >save</button>
@@ -38,7 +38,7 @@ export default {
             save() { //add condition if title and price were even added
                 bookService.save(this.bookToEdit)
                   .then(savedBook => {
-                    console.log(this.savedBook);
+                    console.log(savedBook);
                     showSuccessMsg('Book saved')
                     this.$router.push('/book')
                   })

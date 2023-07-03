@@ -5,8 +5,8 @@ export default {
             <h2>Name: {{ book.title }}</h2>
             <img :src=book.thumbnail alt="" />
             <h3>Price: {{ book.listPrice.amount }}</h3>
-            <RouterLink :to="'/car/' + car.id">Details</RouterLink>
-            <RouterLink :to="'/car/edit/' + car.id">Edit</RouterLink>
+            <RouterLink :to="'/book/' + book.id">Details</RouterLink> | |
+            <RouterLink :to="'/book/edit/' + book.id">Edit</RouterLink>
         </article>
     `,
 }

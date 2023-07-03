@@ -5,7 +5,7 @@ export default {
             <nav>
                 <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="/book">Book Store</RouterLink>
-                <RouterLink to="/about">About US</RouterLink>
+                <RouterLink to="/about">About Us</RouterLink>
             </nav>
         </header>
     `,
