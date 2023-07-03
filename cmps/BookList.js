@@ -9,7 +9,6 @@ export default {
     <ul>
         <li v-for="book in books" :key="book.id">
             <BookPreview :book="book"/>
-            <button @click="onShowDetails(book.id)" class="details">Details</button>
             <button @click="onRemoveBook(book.id)" class="close">x</button>
         </li>
     </ul>
@@ -20,9 +19,6 @@ created() {},
     return {}
   },
   methods: {
-            onShowDetails(bookId) {
-                this.$emit('select', bookId)
-            },
             onRemoveBook(bookId) {
                 this.$emit('remove', bookId)
             }

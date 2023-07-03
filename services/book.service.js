@@ -18,8 +18,8 @@ export const bookService = {
     remove,
     save,
     getEmptyBook,
-    getFilterBy,
-    setFilterBy,
+    // getFilterBy,
+    // setFilterBy,
 }
 window.bookService = bookService
 
@@ -63,19 +63,19 @@ function save(book) {
     }
 }
 
-function getEmptyBook(id = utilService.makeId(), title = '', amount = 0) {
-    return { id, title, listPrice: {amount} }
+function getEmptyBook(id = utilService.makeId(), title = '', amount) {
+    return { id, title, amount }
 }
 
-function getFilterBy() {
-    return { ...gFilterBy }
-}
+// function getFilterBy() {
+//     return { ...gFilterBy }
+// }
 
-function setFilterBy(filterBy = {}) {
-    if (filterBy.title !== undefined) gFilterBy.title = filterBy.title
-    if (filterBy.listPrice.amount !== undefined) gFilterBy.amount = filterBy.listPrice.amount
-    return gFilterBy
-}
+// function setFilterBy(filterBy = {}) {
+//     if (filterBy.title !== undefined) gFilterBy.title = filterBy.title
+//     if (filterBy.listPrice.amount !== undefined) gFilterBy.amount = filterBy.listPrice.amount
+//     return gFilterBy
+// }
 
 // function getNextbookId(bookId) {
 //     return storageService.query(BOOK_KEY)
@@ -111,7 +111,7 @@ function _createBooks() {
     }
 }
 
-function _createBook(title, {amount}) {
-    const book = getEmptyBook(title, amount)
-    return book
-}
+// function _createBook(title, {amount}) {
+//     const book = getEmptyBook(title, amount)
+//     return book
+// }

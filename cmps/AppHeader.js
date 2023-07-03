@@ -3,15 +3,12 @@ export default {
         <header class="app-header">
             <h1>Miss Book</h1>
             <nav>
-                <a href="#" @click="setRoute('home')">Home</a>
-                <a href="#" @click="setRoute('books')">Books</a>
-                <a href="#" @click="setRoute('about')">About</a>
+                <RouterLink to="/">Home</RouterLink>
+                <RouterLink to="/book">Book Store</RouterLink>
+                <RouterLink to="/about">About US</RouterLink>
             </nav>
         </header>
     `,
     methods: {
-        setRoute(route) {
-            this.$emit('change-route', route)
-        }
     }
 }

@@ -1,26 +1,29 @@
 import { bookService } from '../services/book.service.js'
+import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 
 import BookList from '../cmps/BookList.js'
-import BookDetails from '../cmps/BookDetails.js'
 import BookFilter from '../cmps/BookFilter.js'
-import BookEdit from '../cmps/BookEdit.js'
+
 
 export default {
   name:'',
   props: [],
   template: `
         <section class="book-index" v-if="books">
+            <RouterLink to="/book/edit">Add Car</RouterLink>
+
             <BookFilter @filter="setFilterBy"/>
             <BookList 
+            v-if="!selectedBook && books"
                 :books="filteredBooks"
                 @select="selectBook"
                 @remove="removeBook"
             />
-            <BookDetails 
-            v-if="selectedBook"
-            :book="selectedBook"
-            @close="selectedBook = null"/>
-            <BookEdit @save="saveBook"/>
+            <!-- <BookDetails 
+                v-else
+                :book="selectedBook"
+                @close="selectedBook = null"/>
+            <BookEdit @save="saveBook"/> -->
         
         </section>
 
@@ -32,32 +35,26 @@ created() {
     
     data() {
     return {
-        books: null,
-        selectedBook: null,
+        books: [],
         filterBy: {}
            
     }
   },
   methods: {
-        selectBook(bookId){
-                this.selectedBook = this.books.find(book => book.id === bookId)
-                console.log(this.selectedBook)
-        },
         setFilterBy(filterBy) {
             console.log(filterBy);
             this.filterBy = filterBy
         },
-        saveBook(bookToSave) {
-            bookService.save(bookToSave)
-                .then(savedBook => this.books.push(savedBook))
-                console.log(bookToSave)
-                console.log(books)
-        },
+      
         removeBook(bookId) {
             bookService.remove(bookId)
                 .then(() => {
                     const idx = this.books.findIndex(book => book.id === bookId)
                     this.books.splice(idx, 1)
+                    showSuccessMsg('Book removed')
+                })
+                .catch(err => {
+                    showErrorMsg('Cannot remove book')
                 })
         }
   },
@@ -79,8 +76,6 @@ created() {
   },
 components:{
     BookList,
-    BookDetails,
     BookFilter,
-    BookEdit,
 },
 }
