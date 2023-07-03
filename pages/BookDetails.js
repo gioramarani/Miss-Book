@@ -2,31 +2,32 @@ import { bookService } from "../services/book.service.js"
 
 import LongText from '../cmps/LongText.js'
 import BookAddReview from '../cmps/BookAddReview.js'
+import ReviewList from '../cmps/ReviewList.js'
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 
 export default {
-  name:'',
-  props: ['book'],
+  name:'BookDetails',
   template: `
-            <section class="book-details">
-            <h2>Name: {{ book.title }}</h2>
-            <h3>By: {{ book.authors[0] }}</h3>
-            <h4>{{ book.pageCount }} Pages</h4>
-            <h4>Reading Level: {{ getBookLevel  }}</h4>
-            <h4 :class="getBookPriceColor">Price: {{ book.listPrice.amount }} <span>{{ book.listPrice.currencyCode}}</span> </h4>
-            <h5>Language: {{ book.language }}</h5>
-            <h4>Longlivity: {{ getBookAge  }}</h4>
-            <h4 v-if="book.listPrice.isOnSale" class="nice-sign">On Sale!</h4>
-            <LongText :text="book.description"></LongText>
-            <p>{{ getReviews }}</p>
-            <img :src=book.thumbnail alt="" />
-            <RouterLink to="/book">Back to List</RouterLink>
-            <BookAddReview @addToReviews="addToReviews"  />
+            <section v-if="book" class="book-details">
+              <h2>Name: {{ book.title }}</h2>
+              <h3>By: {{ book.authors[0] }}</h3>
+              <h4>{{ book.pageCount }} Pages</h4>
+              <h4>Reading Level: {{ getBookLevel  }}</h4>
+              <h4 :class="getBookPriceColor">Price: {{ book.listPrice.amount }} <span>{{ book.listPrice.currencyCode}}</span> </h4>
+              <h5>Language: {{ book.language }}</h5>
+              <h4>Longlivity: {{ getBookAge  }}</h4>
+              <h4 v-if="book.listPrice.isOnSale" class="nice-sign">On Sale!</h4>
+              <LongText :text="book.description"></LongText>
+              <img :src=book.thumbnail alt="" />
+              <RouterLink to="/book">Back to List</RouterLink>
+              <BookAddReview @addToReviews="addToReviews"  />
+              <ReviewList v-if="book.reviews" :reviews="book.reviews"/>
             </section>
         `,
   data() {
     return {
       book: null,
-      reviews: []
+      // reviews: []
     }
   },
   created() {
@@ -36,20 +37,24 @@ export default {
           this.book = book
       })
       .catch(err => {
-        showErrorMsg('Cannot load book')
+        showErrorMsg ('Cannot load book')
         this.$router.push('/book')
       })
   },
   methods: {
     addToReviews(review){
-      this.reviews.push(review)
-      bookService.save(this.book)
+      // this.reviews.push(review)
+      bookService.addReview(this.book.id, review)
       .then(book => {
-        book.reviews = this.reviews
+        this.book = book
+        showSuccessMsg('Thank you for your review!')
+
+        // book.reviews = this.reviews
       })
       console.log(this.reviews)
       
-    }
+    },
+   
   },
   computed: {
     getBookLevel() {
@@ -66,16 +71,11 @@ export default {
     if(this.book.listPrice.amount > 150) return 'red'
     if(this.book.listPrice.amount < 20) return 'green'
   },
-  getReviews(){
-    bookService.get(book)
-      .then(() => {
-        return book.reviews
-      })
-    
-  }
+  
   },
 components:{
   LongText,
-  BookAddReview
+  BookAddReview,
+  ReviewList
 },
 }

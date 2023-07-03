@@ -18,6 +18,7 @@ export const bookService = {
     remove,
     save,
     getEmptyBook,
+    addReview
     // getFilterBy,
     // setFilterBy,
 }
@@ -67,6 +68,13 @@ function getEmptyBook(id = '', title = '', amount) {
     return { id, title, listPrice:{amount} }
 }
 
+function addReview(bookId, review){
+    return get(bookId).then(book => {
+        if(!book.reviews) book.reviews = []
+        book.reviews.push(review)
+        return save(book)
+    })
+}
 // function getFilterBy() {
 //     return { ...gFilterBy }
 // }
