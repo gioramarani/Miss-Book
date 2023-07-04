@@ -19,9 +19,13 @@ export default {
               <h4 v-if="book.listPrice.isOnSale" class="nice-sign">On Sale!</h4>
               <LongText :text="book.description"></LongText>
               <img :src=book.thumbnail alt="" />
-              <RouterLink to="/book">Back to List</RouterLink>
               <BookAddReview @addToReviews="addToReviews"  />
-              <ReviewList v-if="book.reviews" :reviews="book.reviews"/>
+              <ReviewList v-if="book.reviews" :reviews="book.reviews" @remove="remove"/>
+              
+              <RouterLink :to="'/book/' + book.nextBookId">Next Book</RouterLink> |
+              <RouterLink :to="'/book/' + book.prevBookId">Prev Book</RouterLink> |
+              
+              <RouterLink to="/book">Back to List</RouterLink>
             </section>
         `,
   data() {
@@ -31,15 +35,7 @@ export default {
     }
   },
   created() {
-    const { bookId } = this.$route.params
-    bookService.get(bookId)
-      .then(book => {
-          this.book = book
-      })
-      .catch(err => {
-        showErrorMsg ('Cannot load book')
-        this.$router.push('/book')
-      })
+      this.loadBook()
   },
   methods: {
     addToReviews(review){
@@ -54,7 +50,27 @@ export default {
       console.log(this.reviews)
       
     },
-   
+    remove(reviewId) {
+        console.log(reviewId)
+        bookService.removeReview(this.book.id, reviewId)
+            .then(book => this.book = book)
+    },
+    loadBook() {
+      const { bookId } = this.$route.params
+      bookService.get(bookId)
+        .then(book => {
+            this.book = book
+        })
+        .catch(err => {
+          showErrorMsg ('Cannot load book')
+          this.$router.push('/book')
+        })
+    }
+  },
+  watch: {
+      bookId() {
+        this.loadBook()
+      }
   },
   computed: {
     getBookLevel() {
@@ -71,6 +87,9 @@ export default {
     if(this.book.listPrice.amount > 150) return 'red'
     if(this.book.listPrice.amount < 20) return 'green'
   },
+  bookId() {
+    return this.$route.params.bookId
+  }
   
   },
 components:{
