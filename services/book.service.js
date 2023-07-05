@@ -6,9 +6,30 @@ const PAGE_SIZE = 5
 const BOOK_KEY = 'bookDB'
 console.log(gBooks);
 var gFilterBy = { title: '', amount: 0 }
-// var gSortBy = { vendor: 1 }
-// var gPageIdx
 
+const GoogleList = [
+
+    {
+        type: 'hardCodeGoogleList',
+        title: 'book1',
+        id: utilService.makeId()
+    },
+    {
+        type: 'hardCodeGoogleList',
+        title: 'book2',
+        id: utilService.makeId()
+    },
+    {
+        type: 'hardCodeGoogleList',
+        title: 'book3',
+        id: utilService.makeId()
+    },
+    {
+        type: 'hardCodeGoogleList',
+        title: 'book4',
+        id: utilService.makeId()
+    },
+]
 _createBooks()
 
 
@@ -19,7 +40,9 @@ export const bookService = {
     save,
     getEmptyBook,
     addReview,
-    removeReview
+    removeReview,
+    getGoogleBookList,
+    addGoogleBook,
     // getFilterBy,
     // setFilterBy,
 }
@@ -64,6 +87,22 @@ function _setNextPrevBookId(book) {
                 : books[books.length - 1].id
             return book
         })
+}
+
+function getGoogleBookList() {
+    return Promise.resolve(GoogleList)
+}
+
+
+function addGoogleBook(item) {
+    console.log(item);
+    // const book= GoogleList.find(book=> book.id === item.id)
+    // console.log(book);
+    save(item)
+    return Promise.resolve()
+    // return save(item)
+    //         .then(GoogleList.pop(item))   //??//
+
 }
 
 
@@ -133,6 +172,7 @@ function removeReview(bookId, reviewId) {
 // }
 
 function _createBooks() {
+    // fetch('https://www.googleapis.com/books/v1/volumes?printType=books&q=harry%20potter').then(res=>res.json()).then(console.log)
     let books = utilService.loadFromStorage(BOOK_KEY)
     if (!books || !books.length) {
         // books = []
@@ -148,3 +188,5 @@ function _createBooks() {
 //     const book = getEmptyBook(title, amount)
 //     return book
 // }
+
+// https://www.googleapis.com/books/v1/volumes?printType=books&q=harry%20javascript

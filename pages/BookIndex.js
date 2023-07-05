@@ -5,12 +5,14 @@ import BookList from '../cmps/BookList.js'
 import BookFilter from '../cmps/BookFilter.js'
 
 
+
 export default {
   name:'BookIndex',
   props: [],
   template: `
         <section class="book-index" v-if="books">
-            <RouterLink to="/book/edit">Add Book</RouterLink>
+            <RouterLink to="/book/book-add">Add Book</RouterLink>
+            
 
             <BookFilter @filter="setFilterBy"/>
             <BookList 

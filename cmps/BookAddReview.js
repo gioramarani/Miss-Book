@@ -1,3 +1,6 @@
+import RateBySelect from "./RateBySelect.js"
+import RateByTextbox from "./RateByTextbox.js"
+import RateByStars from "./RateByStars.js"
 
 import { utilService } from "../services/util.service.js"
 
@@ -5,7 +8,23 @@ export default {
   name:'BookAddReview',
   props: [],
   template: `
-         <form @submit.prevent="addReview" class="add-review">
+            <!-- <fieldset>   -->
+              <!-- <legend>Please choose a rating format</legend>
+          <input type="radio" value="RateBySelect" v-model="rateType" id="select" />
+          <label for="select">select</label>
+          <input type="radio" value="RateByTextbox" v-model="rateType" id="textbox" />
+          <label for="textbox">textbox</label>
+          <input type="radio" value="RateByStars" v-model="rateType" id="stars" />
+          <label for="stars">stars</label>
+          </fieldset>  -->
+
+          <!-- <component
+          :is="rateType"
+          @submit-review="addReview"
+          />
+         -->
+
+         <form @submit.prevent="$emit.submit-review" class="add-review">
             <h2>Your review helps our fellow readers</h2>
             <input type="text" v-model="review.name" placeholder="Full Name"/>
             <select v-model.number="review.rating">
@@ -23,6 +42,7 @@ export default {
 created() {},
   data() {
     return {
+            rateType: '',
         review:
             {
                 name: '',
@@ -47,5 +67,9 @@ created() {},
             }
   },
   computed: {},
-components:{},
+components:{
+  RateBySelect,
+  RateByTextbox,
+  RateByStars
+},
 }
